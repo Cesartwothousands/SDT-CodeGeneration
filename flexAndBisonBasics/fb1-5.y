@@ -9,6 +9,15 @@
 
 %{
 #  include <stdio.h>
+
+int power(int base, int exp){
+  int result = 1;
+  while (exp > 0){
+    result *= base;
+    exp--;
+  }
+  return result;
+}
 %}
 
 /* declare tokens */
@@ -16,6 +25,7 @@
 %token ADD SUB MUL DIV ABS
 %token OP CP
 %token EOL
+%token EXP
 
 %%
 
@@ -30,9 +40,13 @@ exp: factor
  | exp ABS factor { $$ = $1 | $3; }
  ;
 
-factor: term
- | factor MUL term { $$ = $1 * $3; }
- | factor DIV term { $$ = $1 / $3; }
+factor: power
+ | factor MUL power { $$ = $1 * $3; }
+ | factor DIV power { $$ = $1 / $3; }
+ ;
+
+power: term
+ | term EXP power { $$ = power($1, $3); }
  ;
 
 term: NUMBER

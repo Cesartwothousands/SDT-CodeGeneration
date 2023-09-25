@@ -19,6 +19,7 @@
 "|"     { return ABS; }
 "("     { return OP;  }
 ")"     { return CP; }
+"^"     { return EXP; }
 -?[0-9]+	{ yylval = atoi(yytext); return NUMBER; }
 
 \n      { return EOL; }
